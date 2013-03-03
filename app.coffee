@@ -65,6 +65,8 @@ require [], ->
       (t - @startTime[tag] < @tapTimeout)
       
     endDrag: (tag, e, e2) ->
+      return if not @startPos[tag]?
+      
       wasTap = @wasTap tag, e, e2
       if @dragging[tag]?
         e2?.preventDefault()
@@ -81,6 +83,8 @@ require [], ->
           @points.push @screenToWorld @eventToPoint e
           @updateSorted()
           @redraw()
+      delete @startPos[tag]
+      delete @startTime[tag]
 
     updateSorted: ->
       @sortedPoints = @points[0...@points.length]
