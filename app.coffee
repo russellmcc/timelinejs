@@ -154,12 +154,16 @@ require [], ->
       @ctx.strokeStyle = @fgColor
       @ctx.fillStyle = @ptColor
       @drawPoint p for p in @points
+      lastY = @sortedPoints?[@sortedPoints.length-1]?[1] ? 0.5
+      firstY = @sortedPoints?[0]?[1] ? 0.5
       @ctx.beginPath()
-      firstPoint = @worldToScreen @sortedPoints[0]
-      @ctx.moveTo(firstPoint[0], firstPoint[1])
-      for p in @sortedPoints[1...]
+      first = @worldToScreen [0, firstY]
+      @ctx.moveTo first[0], first[1]
+      for p in @sortedPoints[0...]
         sp = @worldToScreen p
-        @ctx.lineTo(sp[0], sp[1])
+        @ctx.lineTo sp[0], sp[1]
+      last = @worldToScreen [1, lastY]
+      @ctx.lineTo last[0], last[1]
       @ctx.stroke()
 
   h = ($ '#lines').height()
