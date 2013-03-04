@@ -16,6 +16,7 @@ require [], ->
 
       @startPos = {}
       @startTime = {}
+      @lastPos = {}
       
       # these determine whether events are considered
       # taps or drags.  If the touch/click was shorter
@@ -26,6 +27,20 @@ require [], ->
 
       @$.bind 'mousedown', (e) => @startDrag 'mouse', e
 
+      @$.bind 'mousewheel', (e) =>
+        e.preventDefault()
+        scale = Math.pow(1.001, e.wheelDelta)
+        @scale scale, @visibleRegion, (@screenToWorld @eventToPoint e)[0]
+
+      @canvas.ongesturestart = (e) =>
+        @gestureRegion= [@visibleRegion[0], @visibleRegion[1]]
+        @gestureBase = (@screenToWorld @eventToPoint e)[0]
+
+      @canvas.ongesturechange = (e) =>
+        # don't scale if there's a drag active
+        return if Object.keys(@dragging).length
+        @scale e.scale, @gestureRegion, @gestureBase
+        
       ($ window).bind 'mouseup', (e) => @endDrag 'mouse', e
 
       ($ window).bind 'mousemove', (e) => @moveDrag 'mouse', e
@@ -44,20 +59,29 @@ require [], ->
       i = @getIndexUnder @eventToPoint e
       if i?
         e2?.preventDefault()
+        e2?.stopPropagation()
         @dragging[tag] = i
         @points[i].dragging = tag
         @redraw()
       @startPos[tag] = @eventToPoint e
+      @lastPos[tag] = @startPos[tag]
       @startTime[tag] = e.timeStamp ? e2?.timeStamp
         
     moveDrag: (tag, e, e2) ->
       if @dragging[tag]?
         e2?.preventDefault()
+        e2?.stopPropagation()
         @points[@dragging[tag]] = @screenToWorld @eventToPoint e
         @points[@dragging[tag]].dragging = tag
         @updateSorted()
         @redraw()
-
+      else if @startPos[tag]?
+        e2?.preventDefault()
+        e2?.stopPropagation()
+        p = @eventToPoint e
+        @scroll @lastPos[tag][0] - p[0]
+        @lastPos[tag] = p
+        
     wasTap: (tag, e, e2) ->
       p = @eventToPoint e
       t = e.timeStamp ? e2.timeStamp
@@ -85,6 +109,22 @@ require [], ->
           @redraw()
       delete @startPos[tag]
       delete @startTime[tag]
+
+    scroll: (dx) ->
+      vRange = @visibleRegion[1] - @visibleRegion[0]
+      unitsPerPixel = vRange / @w
+      @visibleRegion[0] += unitsPerPixel * dx
+      @visibleRegion[0] = Math.min(1 - vRange, Math.max(0, @visibleRegion[0]))
+      @visibleRegion[1] = @visibleRegion[0] + vRange
+      @redraw()
+
+    scale: (scale, origRegion, base) ->
+      diff = [ origRegion[0] - base
+             , origRegion[1] - base ]
+      scaledRegion = [ diff[0] / scale + base
+                     , diff[1] / scale + base]
+      @visibleRegion = (Math.min(1,Math.max(0,t)) for t in scaledRegion)
+      @redraw()
 
     updateSorted: ->
       @sortedPoints = @points[0...@points.length]
