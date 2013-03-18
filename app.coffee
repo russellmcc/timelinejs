@@ -4,6 +4,7 @@ require [], ->
       @points = [[0,0],[1,1]]
       @sortedPoints = @points
       @visibleRegion = [0,1]
+      @minRegion = 0.000003
       @bgColor = '#0b486b'
       @fgColor = '#CFF09E'
       @ptColor = '#3B8686'
@@ -121,6 +122,7 @@ require [], ->
     scale: (scale, origRegion, base) ->
       diff = [ origRegion[0] - base
              , origRegion[1] - base ]
+      scale = Math.min(scale, (diff[1] - diff[0])/@minRegion)
       scaledRegion = [ diff[0] / scale + base
                      , diff[1] / scale + base]
       @visibleRegion = (Math.min(1,Math.max(0,t)) for t in scaledRegion)
