@@ -16,6 +16,7 @@ View the live demo [here][2].
 
 ## Mouse Controls
  + mousewheel up/down to zoom in/out
+ + mousewheel left/right to pan
  + click and drag outside the line to pan
  + click and drag a control point to edit the line
  + click a control point to delete it
@@ -53,4 +54,6 @@ available options are:
   default: `300`
  + `tapRadius`: the number of pixels a tap can move before it's counted as a
   drag. default: `10`
+ + `points` : the initial points as an array of two-element arrays.
+ + `visibleRegion` : the initial visible region as a two-element array.
 

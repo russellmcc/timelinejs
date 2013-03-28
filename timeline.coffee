@@ -17,6 +17,7 @@
 #
 # ## Mouse Controls
 #  + mousewheel up/down to zoom in/out
+#  + mousewheel left/right to pan
 #  + click and drag outside the line to pan
 #  + click and drag a control point to edit the line
 #  + click a control point to delete it
@@ -64,6 +65,8 @@ class TimeLine
 #   default: `300`
 #  + `tapRadius`: the number of pixels a tap can move before it's counted as a
 #   drag. default: `10`
+#  + `points` : the initial points as an array of two-element arrays.
+#  + `visibleRegion` : the initial visible region as a two-element array.
     @o = $.extend({
       fgColor: '#CFF09E'
       ptColor: '#3B8686'
@@ -74,9 +77,9 @@ class TimeLine
       tapRadius: 10 # in pixels
       }, options)
       
-    @points = [[0,0],[1,1]]
+    @points = options?.points ? []
     @sortedPoints = @points
-    @visibleRegion = [0,1]
+    @visibleRegion = options?.visibleRegion ? [0,1]
     @$ = $ @canvas
     @ctx = @canvas.getContext '2d'
     @dragging = {}
@@ -89,8 +92,12 @@ class TimeLine
 
     @$.bind 'mousewheel', (e) =>
       e.preventDefault()
-      scale = Math.pow(1.001, e.wheelDelta)
+      scaleVal = e.originalEvent.wheelDeltaY ? e.originalEvent.wheelDelta
+      scrollVal = e.originalEvent.wheelDeltaX
+      
+      scale = Math.pow(1.001, scaleVal)
       @scale scale, @visibleRegion, (@screenToWorld @eventToPoint e)[0]
+      @scroll scrollVal/2 if scrollVal?
 
     @canvas.ongesturestart = (e) =>
       @gestureRegion= [@visibleRegion[0], @visibleRegion[1]]
@@ -132,7 +139,7 @@ class TimeLine
     @startTime[tag] = e.timeStamp ? e2?.timeStamp
 
   getPoints: () ->
-    @points
+    @points.slice()
   setPoints: (p) ->
     @points = p
     @updateSorted()

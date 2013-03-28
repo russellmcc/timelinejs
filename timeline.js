@@ -7,7 +7,8 @@
 
   TimeLine = (function() {
     function TimeLine(div, options) {
-      var _this = this;
+      var _ref, _ref1,
+        _this = this;
 
       this.div = div;
       this.resize = __bind(this.resize, this);
@@ -23,9 +24,9 @@
         tapTimeout: 300,
         tapRadius: 10
       }, options);
-      this.points = [[0, 0], [1, 1]];
+      this.points = (_ref = options != null ? options.points : void 0) != null ? _ref : [];
       this.sortedPoints = this.points;
-      this.visibleRegion = [0, 1];
+      this.visibleRegion = (_ref1 = options != null ? options.visibleRegion : void 0) != null ? _ref1 : [0, 1];
       this.$ = $(this.canvas);
       this.ctx = this.canvas.getContext('2d');
       this.dragging = {};
@@ -36,11 +37,16 @@
         return _this.startDrag('mouse', e);
       });
       this.$.bind('mousewheel', function(e) {
-        var scale;
+        var scale, scaleVal, scrollVal, _ref2;
 
         e.preventDefault();
-        scale = Math.pow(1.001, e.wheelDelta);
-        return _this.scale(scale, _this.visibleRegion, (_this.screenToWorld(_this.eventToPoint(e)))[0]);
+        scaleVal = (_ref2 = e.originalEvent.wheelDeltaY) != null ? _ref2 : e.originalEvent.wheelDelta;
+        scrollVal = e.originalEvent.wheelDeltaX;
+        scale = Math.pow(1.001, scaleVal);
+        _this.scale(scale, _this.visibleRegion, (_this.screenToWorld(_this.eventToPoint(e)))[0]);
+        if (scrollVal != null) {
+          return _this.scroll(scrollVal / 2);
+        }
       });
       this.canvas.ongesturestart = function(e) {
         _this.gestureRegion = [_this.visibleRegion[0], _this.visibleRegion[1]];
@@ -59,34 +65,34 @@
         return _this.moveDrag('mouse', e);
       });
       this.canvas.ontouchstart = function(e) {
-        var t, _i, _len, _ref, _results;
+        var t, _i, _len, _ref2, _results;
 
-        _ref = e.changedTouches;
+        _ref2 = e.changedTouches;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          t = _ref[_i];
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          t = _ref2[_i];
           _results.push(_this.startDrag(t.identifier, t, e));
         }
         return _results;
       };
       window.ontouchmove = function(e) {
-        var t, _i, _len, _ref, _results;
+        var t, _i, _len, _ref2, _results;
 
-        _ref = e.changedTouches;
+        _ref2 = e.changedTouches;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          t = _ref[_i];
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          t = _ref2[_i];
           _results.push(_this.moveDrag(t.identifier, t, e));
         }
         return _results;
       };
       window.ontouchend = function(e) {
-        var t, _i, _len, _ref, _results;
+        var t, _i, _len, _ref2, _results;
 
-        _ref = e.changedTouches;
+        _ref2 = e.changedTouches;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          t = _ref[_i];
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          t = _ref2[_i];
           _results.push(_this.endDrag(t.identifier, t, e));
         }
         return _results;
@@ -118,7 +124,7 @@
     };
 
     TimeLine.prototype.getPoints = function() {
-      return this.points;
+      return this.points.slice();
     };
 
     TimeLine.prototype.setPoints = function(p) {
