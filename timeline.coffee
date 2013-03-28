@@ -139,11 +139,13 @@ class TimeLine
     @startTime[tag] = e.timeStamp ? e2?.timeStamp
 
   getPoints: () ->
-    @points.slice()
+    @sortedPoints.slice()
+    
   setPoints: (p) ->
     @points = p
-    @updateSorted()
-  
+    @updateSorted yes
+    @redraw()
+
   moveDrag: (tag, e, e2) ->
     if @dragging[tag]?
       e2?.preventDefault()
@@ -204,9 +206,10 @@ class TimeLine
     @visibleRegion = (Math.min(1,Math.max(0,t)) for t in scaledRegion)
     @redraw()
 
-  updateSorted: ->
+  updateSorted: (inhibit) ->
     @sortedPoints = @points[0...@points.length]
     @sortedPoints.sort (a, b) -> a[0] - b[0]
+    @$div.trigger 'change' unless inhibit
 
   eventToPoint: (e) ->
     offset = @$.offset()

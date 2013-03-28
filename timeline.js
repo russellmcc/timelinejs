@@ -124,12 +124,13 @@
     };
 
     TimeLine.prototype.getPoints = function() {
-      return this.points.slice();
+      return this.sortedPoints.slice();
     };
 
     TimeLine.prototype.setPoints = function(p) {
       this.points = p;
-      return this.updateSorted();
+      this.updateSorted(true);
+      return this.redraw();
     };
 
     TimeLine.prototype.moveDrag = function(tag, e, e2) {
@@ -230,11 +231,14 @@
       return this.redraw();
     };
 
-    TimeLine.prototype.updateSorted = function() {
+    TimeLine.prototype.updateSorted = function(inhibit) {
       this.sortedPoints = this.points.slice(0, this.points.length);
-      return this.sortedPoints.sort(function(a, b) {
+      this.sortedPoints.sort(function(a, b) {
         return a[0] - b[0];
       });
+      if (!inhibit) {
+        return this.$div.trigger('change');
+      }
     };
 
     TimeLine.prototype.eventToPoint = function(e) {
