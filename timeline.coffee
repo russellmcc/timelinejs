@@ -1,11 +1,26 @@
-$ = jQuery
+#~readme.out~
+#
+#----
+#~options~
 
+$ = jQuery
 class TimeLine
   constructor: (@div, options) ->
     @$div = $ @div
     @canvas = document.createElement 'canvas'
     @div.appendChild @canvas
-    
+
+#~options~
+# + `fgColor`: The line color in hex. default: `'#CFF09E'`
+# + `ptColor`: The point color in hex. default: `'#3B8686'`
+# + `dragColor`: The color of dragging points in hex. default: `'#79BD9A'`
+# + `minRegion`: the length of the screen at the maximum zoom level.
+#  default: `0.000003`
+# + `ptRadius`: the drawn radius of the points. default: `10`
+# + `tapTimeout`: the number of milliseconds before a tap is counted as a drag
+#  default: `300`
+# + `tapRadius`: the number of pixels a tap can move before it's counted as a
+#  drag. default: `10`
     @o = $.extend({
       fgColor: '#CFF09E'
       ptColor: '#3B8686'
