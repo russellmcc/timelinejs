@@ -208,16 +208,26 @@ define [], ->
       @ctx.lineTo last[0], last[1]
       @ctx.stroke()
       
-  methods =
-    init : (o) ->
-      $t = $ @
-      t = new TimeLine @, o if $t.is 'canvas'
-      $t.data 'timeline', t
-    resize: (w, h) ->
-      t = ($ @).data 'timeline'
-      t.resize w, h if t?
   $.fn.timeline = (m) ->
     a = arguments
+    ret = @
+    found = no
+
+    methods =
+      init : (o) ->
+        $t = $ @
+        if ($t.data 'timeline')?
+          ret = ($t.data 'timeline') unless found
+          found = yes
+        else
+          t = new TimeLine @, o if $t.is 'canvas'
+          $t.data 'timeline', t
+          ret = t unless found
+          found = yes
+      resize: (w, h) ->
+        t = ($ @).data 'timeline'
+        t.resize w, h if t?
+            
     @each ->
       if methods[m]
         args = Array.prototype.slice.call a, 1
@@ -226,6 +236,6 @@ define [], ->
         methods.init.apply @, a
       else
         $.error "Method #{method} does not exist on jQuery.timeline"
-    return @
+    return ret
     
   return
