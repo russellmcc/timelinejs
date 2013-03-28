@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<link href='main.css' rel='stylesheet' type='text/css'/> <link href="http://fonts.googleapis.com/css?family=Ubuntu+Mono|Ubuntu+Condensed|Ubuntu" rel="stylesheet" type="text/css"/>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+    <script src="https://raw.github.com/russellmcc/timelinejs/master/timeline.min.js"></script>
+    
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"></meta>
+</head>
+<body>
+<div id="container">
+
+<h1 id="timeline.js">TimeLine.js</h1>
+<h3 id="multitouch-timelines-for-javascript">multitouch timelines for javascript</h3>
+<div id="timeline-intro" style="height:200px;"></div>
+<script type="text/javascript">
+  var p = [];
+  var n = 35;
+  for(var i = 0; i < n; ++i) {
+      var h = 0.5 + 0.3 * Math.sin(i/n * Math.PI) * Math.cos(i * Math.PI);
+      p.push([i/n, h]);
+  }
+  $('#timeline-intro').timeline({
+     points: p
+  });
+</script>
+
+<h2 id="touch-controls">Touch Controls</h2>
+<ul>
+<li>pinch-to-zoom.</li>
+<li>drag anywhere away from the line to pan</li>
+<li>drag any number of control points to edit the line</li>
+<li>tap a control point to delete it</li>
+<li>tap away from a control point to create a new one.</li>
+</ul>
+<h2 id="mouse-controls">Mouse Controls</h2>
+<ul>
+<li>mousewheel up/down to zoom in/out</li>
+<li>mousewheel left/right to pan</li>
+<li>click and drag outside the line to pan</li>
+<li>click and drag a control point to edit the line</li>
+<li>click a control point to delete it</li>
+<li>click away from a control point to create a new one.</li>
+</ul>
+<h2 id="api-basics">API Basics</h2>
+<p>include timeline.js</p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-1.9.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://code.jquery.com/jquery-migrate-1.1.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://raw.github.com/russellmcc/timelinejs/master/timeline.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>create a div with a height</p>
+<pre><code>&lt;div id=&quot;timeline&quot; style=&quot;height:200px;&quot;&gt;&lt;/div&gt;</code></pre>
+<p>initialize the timeline</p>
+<pre><code>$(&quot;#timeline&quot;).timeline();</code></pre>
+<p>it looks like this:</p>
+<div id="timeline" style="height:200px;"></div>
+<script type="text/javascript">
+   $("#timeline").timeline();
+</script>
+
+<h2 id="initialization-options">Initialization Options</h2>
+<p>pass in an object to the initialization to set the options</p>
+<pre><code>$(&quot;#timeline&quot;).timeline({
+   fgColor: &#39;chartreuse&#39;,
+   ptColor: &#39;violet&#39;,
+   dragColor: &#39;aqua&#39;,
+   ptRadius: 30,
+   points: [[.25, .5], [.5,.75], [.75,.5]]
+});</code></pre>
+<div id="timeline2" style="height:200px;"></div>
+<script type="text/javascript">
+   $("#timeline2").timeline({
+       fgColor: 'chartreuse',
+       ptColor: 'violet',
+       dragColor: 'aqua',
+       ptRadius: 30,
+       points: [[.25, .5], [.5,.75], [.75,.5]]
+    });
+</script>
+
+
+<h3 id="available-options">available options</h3>
+<ul>
+<li><code>fgColor</code>: The line color in hex. default: <code>'#CFF09E'</code></li>
+<li><code>ptColor</code>: The point color in hex. default: <code>'#3B8686'</code></li>
+<li><code>dragColor</code>: The color of dragging points in hex. default: <code>'#79BD9A'</code></li>
+<li><code>minRegion</code>: the length of the screen at the maximum zoom level. default: <code>0.000003</code></li>
+<li><code>ptRadius</code>: the drawn radius of the points. default: <code>10</code></li>
+<li><code>tapTimeout</code>: the number of milliseconds before a tap is counted as a drag default: <code>300</code></li>
+<li><code>tapRadius</code>: the number of pixels a tap can move before it's counted as a drag. default: <code>10</code></li>
+<li><code>points</code> : the initial points as an array of two-element arrays.</li>
+<li><code>visibleRegion</code> : the initial visible region as a two-element array.</li>
+</ul>
+<h2 id="resizing">Resizing</h2>
+<p>resize like this:</p>
+<pre><code>$(&quot;#timeline&quot;).timeline({points:[[.5,.5]]});       
+$(&quot;#timeline&quot;).timeline(&#39;resize&#39;, 200, 200)</code></pre>
+<div id="timeline3" style="margin:auto; height:200px; background:'#222';"></div>
+<script type="text/javascript">
+   $("#timeline3").timeline({points:[[.5,.5]]});
+   $("#timeline3").timeline('resize', 200, 200)
+</script>
+
+<h2 id="setting-points">Setting points</h2>
+<p>just get the timeline object and call <code>setPoints</code>. Don't do this during a drag.</p>
+<pre><code>$(&quot;#timeline&quot;).timeline({points:[[.5,.5]]});       
+$(&quot;#timeline&quot;).timeline().setPoints([[.25,.25], [.75,.75]])</code></pre>
+<div id="timeline4" style="height:200px; background:'#222';"></div>
+<script type="text/javascript">
+   $("#timeline4").timeline();
+   $("#timeline4").timeline().setPoints([[.25,.25], [.75,.75]])
+</script>
+
+<h2 id="getting-points">Getting points</h2>
+<pre><code>$(&quot;#timeline&quot;).timeline({points:[[.5,.5]]});
+var updatePoints = function(){
+    var points = $(&quot;#timeline&quot;).timeline().getPoints();
+    var str = &quot;&lt;dl&gt;&quot;;
+    for(var i = 0; i &lt; points.length; ++i) {
+        str += &quot;&lt;dt&gt;&quot; + points[i][0].toFixed(2) + &quot;&lt;/dt&gt;&quot;;
+        str += &quot;&lt;dd&gt;&quot; + points[i][1].toFixed(2) + &quot;&lt;/dd&gt;&quot;;
+    }
+    str += &quot;&lt;dl&gt;&quot;;
+    $(&quot;#points&quot;).html(str);
+}
+$(&quot;#timeline&quot;).bind(&#39;change&#39;, updatePoints);
+updatePoints();</code></pre>
+<div id="points"></div>
+<div id="timeline5" style="height:200px; background:'#222';"></div>
+<script type="text/javascript">
+    $("#timeline5").timeline({points:[[.5,.5]]});
+    var updatePoints = function(){
+        var points = $("#timeline5").timeline().getPoints();
+        var str = "<dl>";
+        for(var i = 0; i < points.length; ++i) {
+            str += "<dt>" + points[i][0].toFixed(2) + "</dt>";
+            str += "<dd>" + points[i][1].toFixed(2) + "</dd>";
+        }
+        str += "<dl>";
+        $("#points").html(str);
+    }
+    $("#timeline5").bind('change', updatePoints);
+    updatePoints();
+</script>
+
+</div>
+</body>
+

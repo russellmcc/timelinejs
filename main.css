@@ -1,0 +1,93 @@
+body, div,
+h1, h2, h3, h4, h5, h6,
+a, p, blockquote, pre, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, th, td, input, 
+article, aside, figure, footer, header, hgroup, menu, nav, section, button{
+	margin: 0;
+	padding: 0;
+	border: 0;
+    font-size: 100%;
+    text-decoration: none;
+    font-weight: normal;
+    color:inherit;
+    font-family:inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    background:transparent;
+}
+
+body {
+    background: #333;
+    font-family: futura, comic sans MS, comic sans, marker felt, papyrus, sans-serif;
+    text-align: center;
+    color: #3B8686;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.timeline {
+}
+
+h1 {
+    font-size: 6rem;
+}
+
+h2 {
+    font-size: 4rem;
+}
+
+h3 {
+    font-size: 3rem;
+}
+
+ul {
+  text-align: left;  
+  background: #383838;
+  max-width: 400px;
+  margin: auto;
+}
+
+li {
+  margin-left: 20px;
+}
+
+li, p {
+    font-family: "Ubuntu";
+}
+
+code {
+    font-family: "Ubuntu Mono";
+}
+
+pre {
+    background: #222;
+    text-align: left;
+    padding:1em;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+    margin-top:1em;
+    margin-bottom:1em;
+    border-radius: 1em;
+    overflow: scroll;
+}
+
+#points {
+    background: #383838;
+    width: 200px;
+    margin: auto;
+}
+
+dt, dd{
+    display: inline-block;
+    width: 50%;
+}
+
+#container {
+    max-width: 800px;
+    margin: auto;
+    background: #444;
+    padding:20px;
+    border-radius: 20px;
+}
