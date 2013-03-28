@@ -1,6 +1,6 @@
-require ['cs!timeline'], (EditLine)->
+require ['cs!timeline'], ()->
 
   h = ($ '#lines').height()
-  e = new EditLine ($ '#lines')[0]
-  ($ @).resize -> e.resize $(@).width(), h
-  e.resize ($ @).width(), h
+  ($ '#lines').timeline()
+  ($ @).resize -> ($ '#lines').timeline 'resize', $(@).width(), h
+  ($ '#lines').timeline 'resize', ($ @).width(), h

@@ -1,5 +1,5 @@
 define [], ->
-  class EditLine
+  class TimeLine
     constructor: (@canvas, options) ->
       @o = $.extend({
         fgColor: '#CFF09E'
@@ -171,7 +171,7 @@ define [], ->
       @updateSorted()
       @redraw()
       
-    resize: (w, h) ->
+    resize: (w, h) =>
       @w = w
       @h = h
       r = window.devicePixelRatio ? 1
@@ -207,3 +207,25 @@ define [], ->
       last = @worldToScreen [1, lastY]
       @ctx.lineTo last[0], last[1]
       @ctx.stroke()
+      
+  methods =
+    init : (o) ->
+      $t = $ @
+      t = new TimeLine @, o if $t.is 'canvas'
+      $t.data 'timeline', t
+    resize: (w, h) ->
+      t = ($ @).data 'timeline'
+      t.resize w, h if t?
+  $.fn.timeline = (m) ->
+    a = arguments
+    @each ->
+      if methods[m]
+        args = Array.prototype.slice.call a, 1
+        methods[m].apply @, args
+      else if (typeof m is 'object') or not m?
+        methods.init.apply @, a
+      else
+        $.error "Method #{method} does not exist on jQuery.timeline"
+    return @
+    
+  return
