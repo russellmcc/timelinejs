@@ -5,7 +5,6 @@ require [], ->
       @sortedPoints = @points
       @visibleRegion = [0,1]
       @minRegion = 0.000003
-      @bgColor = '#0b486b'
       @fgColor = '#CFF09E'
       @ptColor = '#3B8686'
       @dragColor = '#79BD9A'
@@ -195,8 +194,7 @@ require [], ->
       @ctx.fill()
       
     redraw: ->
-      @ctx.fillStyle = @bgColor
-      @ctx.fillRect 0, 0, @w, @h
+      @ctx.clearRect 0, 0, @canvas.width, @canvas.height
       @ctx.strokeStyle = @fgColor
       @ctx.fillStyle = @ptColor
       @drawPoint p for p in @points

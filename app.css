@@ -11,4 +11,5 @@ article, aside, figure, footer, header, hgroup, menu, nav, section {
     text-decoration: none;
     font-weight: normal;
     color:inherit;
+    background: #444;
 }
