@@ -112,15 +112,18 @@ class TimeLine
 
     ($ window).bind 'mousemove', (e) => @moveDrag 'mouse', e
 
-    @canvas.ontouchstart = (e) =>
+    @canvas.addEventListener 'touchstart', (e) =>
       for t in e.changedTouches
         @startDrag t.identifier, t, e
-    window.ontouchmove = (e) =>
+      return true
+    window.addEventListener 'touchmove', (e) =>
       for t in e.changedTouches
         @moveDrag t.identifier, t, e
-    window.ontouchend = (e) =>
+      return true
+    window.addEventListener 'touchend', (e) =>
       for t in e.changedTouches
         @endDrag t.identifier, t, e
+      return true
 
     ($ window).resize => @resize()
     @resize()

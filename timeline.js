@@ -64,39 +64,36 @@
       ($(window)).bind('mousemove', function(e) {
         return _this.moveDrag('mouse', e);
       });
-      this.canvas.ontouchstart = function(e) {
-        var t, _i, _len, _ref2, _results;
+      this.canvas.addEventListener('touchstart', function(e) {
+        var t, _i, _len, _ref2;
 
         _ref2 = e.changedTouches;
-        _results = [];
         for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
           t = _ref2[_i];
-          _results.push(_this.startDrag(t.identifier, t, e));
+          _this.startDrag(t.identifier, t, e);
         }
-        return _results;
-      };
-      window.ontouchmove = function(e) {
-        var t, _i, _len, _ref2, _results;
+        return true;
+      });
+      window.addEventListener('touchmove', function(e) {
+        var t, _i, _len, _ref2;
 
         _ref2 = e.changedTouches;
-        _results = [];
         for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
           t = _ref2[_i];
-          _results.push(_this.moveDrag(t.identifier, t, e));
+          _this.moveDrag(t.identifier, t, e);
         }
-        return _results;
-      };
-      window.ontouchend = function(e) {
-        var t, _i, _len, _ref2, _results;
+        return true;
+      });
+      window.addEventListener('touchend', function(e) {
+        var t, _i, _len, _ref2;
 
         _ref2 = e.changedTouches;
-        _results = [];
         for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
           t = _ref2[_i];
-          _results.push(_this.endDrag(t.identifier, t, e));
+          _this.endDrag(t.identifier, t, e);
         }
-        return _results;
-      };
+        return true;
+      });
       ($(window)).resize(function() {
         return _this.resize();
       });
