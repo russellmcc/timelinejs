@@ -12,7 +12,7 @@
 <a href="https://github.com/russellmcc/timelinejs"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 <div id="container">
 
-# TimeLine.js
+# Time­Line.js
 ### multitouch timelines for javascript
 
 <div id="timeline-intro" style="height:200px;"></div>
@@ -66,7 +66,7 @@ it looks like this:
    $("#timeline").timeline();
 </script>
 
-## Initialization Options
+## Initial­ization Options
 
 pass in an object to the initialization to set the options
 
