@@ -5,7 +5,7 @@
 <link href='main.css' rel='stylesheet' type='text/css'/> <link href="http://fonts.googleapis.com/css?family=Ubuntu+Mono|Ubuntu+Condensed|Ubuntu" rel="stylesheet" type="text/css"/>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
-    <script src="https://raw.github.com/russellmcc/timelinejs/master/timeline.min.js"></script>
+    <script src="https://www.russellmcc.com/timelinejs/master/timeline.min.js"></script>
     
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"></meta> <meta charset="UTF-8">
 </head>
@@ -49,7 +49,7 @@
 <p>include timeline.js</p>
 <pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-1.9.1.min.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;http://code.jquery.com/jquery-migrate-1.1.1.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://raw.github.com/russellmcc/timelinejs/master/timeline.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;https://www.russellmcc.com/timelinejs/master/timeline.min.js&quot;&gt;&lt;/script&gt;</code></pre>
 <p>create a div with a height</p>
 <pre><code>&lt;div id=&quot;timeline&quot; style=&quot;height:200px;&quot;&gt;&lt;/div&gt;</code></pre>
 <p>initialize the timeline</p>
@@ -89,7 +89,7 @@
 <li><code>minRegion</code>: the length of the screen at the maximum zoom level. default: <code>0.000003</code></li>
 <li><code>ptRadius</code>: the drawn radius of the points. default: <code>10</code></li>
 <li><code>tapTimeout</code>: the number of milliseconds before a tap is counted as a drag default: <code>300</code></li>
-<li><code>tapRadius</code>: the number of pixels a tap can move before it’s counted as a drag. default: <code>10</code></li>
+<li><code>tapRadius</code>: the number of pixels a tap can move before it's counted as a drag. default: <code>10</code></li>
 <li><code>points</code> : the initial points as an array of two-element arrays.</li>
 <li><code>visibleRegion</code> : the initial visible region as a two-element array.</li>
 </ul>
@@ -104,7 +104,7 @@ $(&quot;#timeline&quot;).timeline(&#39;resize&#39;, 200, 200)</code></pre>
 </script>
 
 <h2 id="setting-points">Setting points</h2>
-<p>just get the timeline object and call <code>setPoints</code>. Don’t do this during a drag.</p>
+<p>just get the timeline object and call <code>setPoints</code>. Don't do this during a drag.</p>
 <pre><code>$(&quot;#timeline&quot;).timeline({points:[[.5,.5]]});       
 $(&quot;#timeline&quot;).timeline().setPoints([[.25,.25], [.75,.75]])</code></pre>
 <div id="timeline4" style="height:200px; background:'#222';"></div>
