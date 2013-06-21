@@ -5,7 +5,7 @@
     <link href="http://fonts.googleapis.com/css?family=Ubuntu+Mono|Ubuntu+Condensed|Ubuntu" rel="stylesheet" type="text/css"/> 
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
-    <script src="https://www.russellmcc.com/timelinejs/timeline.min.js"></script>
+    <script src="http://www.russellmcc.com/timelinejs/timeline.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"></meta>
     <meta charset="UTF-8">
 </head>
@@ -50,7 +50,7 @@ include timeline.js
 
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
-    <script src="https://www.russellmcc.com/timelinejs/timeline.min.js"></script>
+    <script src="http://www.russellmcc.com/timelinejs/timeline.min.js"></script>
 
 create a div with a height
 
